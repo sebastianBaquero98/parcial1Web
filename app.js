@@ -167,6 +167,7 @@ function cargarOrderDetail(){
 function clearProducts(){
     //console.log('Entro al clear');
     orderDetail = [];
+    orderNames = [];
     //console.log(orderDetail);
     cargarOrderDetail()
 }
@@ -206,7 +207,10 @@ function lessOne(product){
     //console.log('Entro a less');
     orderDetail.forEach((orderItem)=>{
         if(orderItem.name == product.name){
-            orderItem.amount-=1;
+            if(orderItem.amount >= 0){
+                orderItem.amount-=1;
+            }
+            
         }
     });
     cargarOrderDetail();
