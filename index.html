@@ -6,101 +6,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Restuarant e lounge</title>
+    <title>Restaurante e Lounge</title>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-md">
-            <div class="container-fluid">
-              <a class="navbar-brand" id="title-main" href="#">Restuarant e Lounge</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                  <li class="nav-item">
-                    <a aria-current="page" href="#"><img src="cart.png" alt="" id="imgNav"></a>
-                  </li>              
-                </ul>
-              </div>
-            </div>
-        </nav>
-    </header>
-    <!-- Banner -->
-    <div>
-            <img src="unsplash_LV2p9Utbkbw.png" id="bannerImg" alt="">
-    </div>
-    <main>
-        <!-- other NavBar-->
-        <nav style="background-color:#333A40;" class="navbar navbar-expand-md">
-            <div class="container-fluid">
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul  class="navbar-nav" id="navbarnav">
-                  <li class="nav-item" id="one">
-                    <a style="color: white;" aria-current="page" href="#">Burguers</a>
-                  </li>
-                  <li class="nav-item">
-                    <a style="color: white;" aria-current="page" href="#">Tacos</a>
-                  </li>
-                  <li class="nav-item">
-                    <a style="color: white;" aria-current="page" href="#">Salads</a>
-                  </li>
-                  <li class="nav-item">
-                    <a  style="color: white;" aria-current="page" href="#">Drinks and Sides</a>
-                  </li>
-                  
-                </ul>
-              </div>
-            </div>
-        </nav>
+            <!-- DESKTOP NAV -->
+            <div class="d-none d-sm-block">
+                <nav class="navbar">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" style="font-size:25px" href="#">Restaurant E Lounge</a>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:cargarOrderDetail()"><img src="./assets/cart.png" alt="" style="width: 30px; height: 31px;"></a>
+                            </li>
+                            <li class="nav-item">
+                                <p id='counterCart' class="nav-link"></p>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
 
-        <!-- Food Section-->
-        <div style="margin-top: 30px; border-bottom: 1px solid #000;"class="div d-flex justify-content-center mt-2">Burguers</div>
-        <div class="container">
-            <div class="row mt-3 gap-4">
-                <div class="col-3"><div class="card" style="width: 267px;height: 327px;">
-                    <img src="burger.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">Card title</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                <!-- DESKTOP BANNER -->
+                <img src="./assets/unsplash_LV2p9Utbkbw.png" style="height: 344px; width:100%;border-bottom: 1px solid #000;padding-bottom: 10px;" alt="">
+            </div>
+                
+            <!-- MOBILE NAV -->
+            <div class="container d-sm-none">
+                <!-- Cart -->
+                <div class="row justify-content-end">
+                    <div class="col">
+                        <a class="nav-link"><img src="./assets/cart.png" alt="" style="width: 30px; height: 31px; margin-right: 35px;"></a>
                     </div>
-                  </div></div>
-                <div class="col-3"><div class="card" style="width: 267px;height: 327px;">
-                    <img src="burger.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">Card title</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+
+                <!-- Title -->
+                <div class="row d-flex justify-content-center">
+                    <a class="navbar-brand" href="#" style="font-size: 30px;">Restaurant E Lounge</a>
+                </div>
+
+                <!-- Dropdown -->
+                <div class="row d-flex justify-content-center">
+                    <div class="dropdown">
+                        <a class="btn btn-warning dropdown-toggle px-5 align-left" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                          Products
+                        </a>
+                      
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <li><a class="dropdown-item" href="javascript:cargarProductos('Burguers');">Burger</a></li>
+                          <li><a class="dropdown-item" href="javascript:cargarProductos('Tacos');">Tacos</a></li>
+                          <li><a class="dropdown-item" href="javascript:cargarProductos('Salads');">Salads</a></li>
+                          <li><a class="dropdown-item" href="javascript:cargarProductos('Desserts');">Desserts</a></li>
+                          <li><a class="dropdown-item" href="javascript:cargarProductos('DAS');">Drink & Sides</a></li>
+                        </ul>
                     </div>
-                  </div></div>
-                <div class="col-3"><div class="card" style="width:267px;height: 327px;">
-                    <img src="burger.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">Card title</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                  </div></div>
-                <div class="col-3"><div class="card" style="width: 267px;height: 327px;">
-                    <img src="burger.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">Card title</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                  </div></div>
+                </div>
+
+            </div>
+    </header>
+
+    <main>
+        <!--CATEGORY BAR -->
+        <div id="categoryBar" style="background-color: #333A40;" class="d-none d-sm-block mt-2">
+            <div class="container row float-start" style="height: 60px">
+                <div class="col-md-2 col-3 align-self-center"><a class="text-center" id="cateItem" href="javascript:cargarProductos('Burguers');">Burguers</a></div>
+                <div class="col-md-2 col-3 align-self-center"><a class="text-center" id="cateItem" href="javascript:cargarProductos('Tacos');">Tacos</a></div>
+                <div class="col-md-2 col-3 align-self-center"><a class="text-center" id="cateItem" href="javascript:cargarProductos('Salads');">Salads</a></div>
+                <div class="col-md-2 col-3 align-self-center"><a class="text-center" id="cateItem" href="javascript:cargarProductos('Desserts');">Desserts</a></div>
+                <div class="col-md-3 col-6 align-self-center"><a class="text-center" id="cateItem" href="javascript:cargarProductos('DAS');">Drinks & Sides</a></div>
+            </div>
+        </div>
+
+        <!--ITEM AREA -->
+        <div class="container mt-3">
+            <!-- TITLE -->
+            <div class="row justify-content-center" id="titleMain" style="border-bottom: 1px solid #000">
+                <h5 style="font-family: 'Roboto', sans-serif;"></h5>
+            </div>
+            
+            <!-- CARDS -->
+            <div id ="itemsMain" class="row justify-content-center mt-3">
             </div>
         </div>
         
     </main>
-
-    <footer>
-    </footer>
-    
 
     <script src="app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
