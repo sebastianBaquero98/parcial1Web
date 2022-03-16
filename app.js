@@ -84,7 +84,7 @@ function cargarOrderDetail(){
 
     const tbody = document.createElement('tbody');
     let sumaPedido = 0;
-    console.log(orderDetail);
+    //console.log(orderDetail);
     orderDetail.forEach((product,index) =>{
         const tr = document.createElement('tr');
 
@@ -132,7 +132,7 @@ function cargarOrderDetail(){
     })
     //console.log(tbody.innerHTML);
     table.appendChild(tbody);
-    console.log(table)
+    //console.log(table)
     containerMain.appendChild(table);
     
     // Resumen  pedido
@@ -151,15 +151,24 @@ function cargarOrderDetail(){
     buttonCancel.classList.add('btn','btn-danger');
     buttonCancel.style = 'margin-right:5px'
     buttonCancel.innerText = 'Cancel';
+    buttonCancel.setAttribute('data-bs-toggle',"modal" );
+    buttonCancel.setAttribute('data-bs-target',"#cancelationModal" );
     const buttonConfirm = document.createElement('button');
     buttonConfirm.classList.add('btn','btn-success');
     buttonConfirm.innerText = 'Confirm Order';
+    buttonConfirm.setAttribute('onClick','javascript:confirmOrder()')
     colRight.appendChild(buttonCancel);
     colRight.appendChild(buttonConfirm);
     rowTotals.appendChild(colRight);
     itemArea.appendChild(rowTotals);
 
 
+}
+function clearProducts(){
+    //console.log('Entro al clear');
+    orderDetail = [];
+    //console.log(orderDetail);
+    cargarOrderDetail()
 }
 
 function sumCart(product){
@@ -168,7 +177,7 @@ function sumCart(product){
     pTag.innerText = count;
     
     if(orderNames.includes(product.name)){
-        console.log('Entro a primer caso');
+        //console.log('Entro a primer caso');
 
         orderDetail.forEach((order)=>{
             if(order.name == product.name){
@@ -177,13 +186,14 @@ function sumCart(product){
         })
     }else{
         product['amount'] = 1;
+        product['unitPrice'] = product.price;
         orderDetail.push(product);  
         orderNames.push(product.name);
     }
 }
 
 function addOne(product){
-    console.log('Entro a add');
+    //console.log('Entro a add');
     orderDetail.forEach((orderItem)=>{
         if(orderItem.name == product.name){
             orderItem.amount+=1;
@@ -193,13 +203,30 @@ function addOne(product){
 };
 
 function lessOne(product){
-    console.log('Entro a less');
+    //console.log('Entro a less');
     orderDetail.forEach((orderItem)=>{
         if(orderItem.name == product.name){
             orderItem.amount-=1;
         }
     });
     cargarOrderDetail();
+}
+
+function confirmOrder(){
+    let respuestaDeTodo = [];
+    console.log('Entro al confirm')
+    orderDetail.forEach((item,index)=>{
+        console.log('Entro al loop')
+        let itemTemp = {};
+        itemTemp['item'] = index;
+        itemTemp['quantity'] = item.amount;
+        itemTemp['description'] = item.description;
+        itemTemp['unitPrice'] = item.unitPrice;
+        console.log('Este es item temp');
+        console.log(itemTemp);
+        respuestaDeTodo.push(itemTemp);
+    })
+    console.log(respuestaDeTodo);
 }
 
 function cargarProductos(categoryName){

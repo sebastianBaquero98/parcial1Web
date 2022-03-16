@@ -85,6 +85,27 @@
             <div id ="itemsMain" class="row justify-content-center mt-3">
             </div>
         </div>
+        <!-- MODAL -->
+        <div class="modal fade" id="cancelationModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="ModalLabel">Cancel the Order</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Are you sure about cancelling the order?</div>
+                <div class="modal-footer">
+                    <div class="row justify-content-end">
+                        <div class="col">
+                            <button onClick="javascript:clearProducts()" type="button" style="background-color:  #708c32;color: white;margin-bottom: 18px;padding-left: 20px;padding-right: 20px" class="btn" data-bs-dismiss="modal">Yes, I want to cancel the order</button>
+                            <button type="button" style="background-color:  #8C162C;color: white;padding-left: 20px;padding-right: 20px" id ="subBtn" class="btn" data-bs-dismiss="modal">No, I want to continue adding products</button>
+                        </div>
+                    </div>
+                    
+                </div>
+              </div>
+            </div>
+          </div>
         
     </main>
 
