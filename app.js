@@ -6,6 +6,9 @@ let desserts = [];
 let das = [];
 let count = 0;
 let orderDetail = [];
+let orderNames = [];
+
+
 const traerInfo = new Promise((resolve, reject)=>{
     const xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://gist.githubusercontent.com/josejbocanegra/9a28c356416badb8f9173daf36d1460b/raw/5ea84b9d43ff494fcbf5c5186544a18b42812f09/restaurant.json');
@@ -33,11 +36,25 @@ traerInfo.then((response) => {
             das = category.products;
         }
     })
-})
-
+});
 
 function cargarOrderDetail(){
+    
+    
+    if(document.getElementById('rowTotals')){
+        const r = document.getElementById('rowTotals')
+        r.remove();
+    }
+    
     const containerMain = document.getElementById('itemsMain');
+    const itemArea = document.getElementById('itemArea');
+    containerMain.innerHTML = '';
+    containerMain.id='itemsMain';
+    containerMain.classList.add('row' ,'justify-content-center', 'mt-3');
+    const titleProducts = document.getElementById('titleMain');
+    titleProducts.innerText = 'ORDER DETAIL';
+    titleProducts.style = 'font-weight:700; font-size: 30px;border-bottom: 1px solid #000';
+    
     const table = document.createElement('table');
     table.classList.add('table', 'table-striped');
     const thead = document.createElement('thead');
@@ -66,7 +83,8 @@ function cargarOrderDetail(){
     table.appendChild(thead);
 
     const tbody = document.createElement('tbody');
-
+    let sumaPedido = 0;
+    console.log(orderDetail);
     orderDetail.forEach((product,index) =>{
         const tr = document.createElement('tr');
 
@@ -74,19 +92,35 @@ function cargarOrderDetail(){
         item.innerText = index;
 
         const qty = document.createElement('td');
-        qty.innerText = '1';
+        qty.innerText = product.amount;
 
         const description = document.createElement('td');
         description.innerText = product.description;
 
         const price = document.createElement('td');
-        price.innerText = product.price;
+        price.innerHTML = product.price;
 
         const amount = document.createElement('td');
-        amount.innerText = '';
+        amount.innerText = product.amount * product.price;
 
         const modifyA = document.createElement('td');
-        modifyA.innerText = 'A'
+        const buttonAdd = document.createElement('button');
+        buttonAdd.classList.add('btn');
+        buttonAdd.style = 'background-color: #FDCD55;color:white;margin-right:10px;'
+        buttonAdd.innerText = '+';
+        let strin = JSON.stringify(product);
+        buttonAdd.setAttribute('onClick',`javascript:addOne(${strin})`);
+        const buttonLess = document.createElement('button');
+        buttonLess.classList.add('btn');
+        buttonLess.style = 'background-color: #FDCD55;color:white;'
+        buttonLess.innerText = '-';
+        buttonLess.setAttribute('onClick',`javascript:lessOne(${strin})`);
+        const divBtns = document.createElement('div');
+        divBtns.classList.add('row')
+        divBtns.appendChild(buttonAdd);
+        divBtns.appendChild(buttonLess);
+        modifyA.appendChild(divBtns);
+       
         tr.appendChild(item);
         tr.appendChild(qty);
         tr.appendChild(description);
@@ -94,17 +128,80 @@ function cargarOrderDetail(){
         tr.appendChild(amount);
         tr.appendChild(modifyA);
         tbody.appendChild(tr);
-
+        sumaPedido+= (product.price * product.amount);
     })
+    //console.log(tbody.innerHTML);
     table.appendChild(tbody);
+    console.log(table)
+    containerMain.appendChild(table);
+    
+    // Resumen  pedido
+    const rowTotals = document.createElement('div');
+    rowTotals.id = 'rowTotals';
+    rowTotals.classList.add('row')
+    const colLeft = document.createElement('div');
+    colLeft.classList.add('col-9');
+    const priceTotals = document.createElement('p');
+    priceTotals.innerHTML = `<strong>Total: ${sumaPedido}</strong>`;
+    colLeft.appendChild(priceTotals);
+    rowTotals.appendChild(colLeft);
+    const colRight = document.createElement('div');
+    colRight.classList.add('col','float-end');
+    const buttonCancel = document.createElement('button');
+    buttonCancel.classList.add('btn','btn-danger');
+    buttonCancel.style = 'margin-right:5px'
+    buttonCancel.innerText = 'Cancel';
+    const buttonConfirm = document.createElement('button');
+    buttonConfirm.classList.add('btn','btn-success');
+    buttonConfirm.innerText = 'Confirm Order';
+    colRight.appendChild(buttonCancel);
+    colRight.appendChild(buttonConfirm);
+    rowTotals.appendChild(colRight);
+    itemArea.appendChild(rowTotals);
+
+
 }
+
 function sumCart(product){
     count++;
     const pTag = document.getElementById('counterCart');
     pTag.innerText = count;
-    orderDetail.push(product)
+    
+    if(orderNames.includes(product.name)){
+        console.log('Entro a primer caso');
 
+        orderDetail.forEach((order)=>{
+            if(order.name == product.name){
+                order['amount']+=1;
+            }
+        })
+    }else{
+        product['amount'] = 1;
+        orderDetail.push(product);  
+        orderNames.push(product.name);
+    }
 }
+
+function addOne(product){
+    console.log('Entro a add');
+    orderDetail.forEach((orderItem)=>{
+        if(orderItem.name == product.name){
+            orderItem.amount+=1;
+        }
+    });
+    cargarOrderDetail();
+};
+
+function lessOne(product){
+    console.log('Entro a less');
+    orderDetail.forEach((orderItem)=>{
+        if(orderItem.name == product.name){
+            orderItem.amount-=1;
+        }
+    });
+    cargarOrderDetail();
+}
+
 function cargarProductos(categoryName){
 //console.log('Entro a metodo');
 let products = [];
@@ -113,6 +210,7 @@ containerProducts.innerHTML = '';
 containerProducts.id='itemsMain';
 containerProducts.classList.add('row' ,'justify-content-center', 'mt-3');
 const titleProducts = document.getElementById('titleMain');
+titleProducts.style = 'font-weight:700; font-size: 30px;border-bottom: 1px solid #000';
 titleProducts.innerText = '';
 if(categoryName == 'Burguers'){
     products = burgers;
@@ -127,7 +225,7 @@ else if(categoryName == 'Desserts'){
     products = das;
 }
 products.forEach(product =>{
-    titleProducts.innerText = product.name;
+    titleProducts.innerText = product.name.toUpperCase();
     const card = document.createElement('div');
     card.classList.add("card");
     card.style = 'width: 300px';
@@ -158,11 +256,13 @@ products.forEach(product =>{
     const rowChkout = document.createElement('div');
     rowChkout.classList.add('row', 'justify-content-center');
     const aBtn = document.createElement('a');
-    aBtn.classList.add('btn', 'btn-warning');
+    aBtn.classList.add('btn');
     aBtn.innerText = 'Add Cart';
+    aBtn.style = 'background-color: #FDCD55; color:#000';
     //aBtn.href = `javascript:sumCart(${product})`;
     //aBtn.href = 'javascript:sumCart()';
-    aBtn.setAttribute('href',`javascript:sumCart(${product})`);
+    let strin = JSON.stringify(product);
+    aBtn.setAttribute('href',`javascript:sumCart(${strin})`);
     rowChkout.appendChild(aBtn);
     cardBody.appendChild(rowChkout);
     card.appendChild(cardBody);
